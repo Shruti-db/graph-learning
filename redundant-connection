@@ -1,0 +1,26 @@
+/* Return an edge that can be removed so that the resulting graph is a tree of n nodes */
+/* solved using union find, push the ones to resultant vector having same parent */
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        n = n+1;
+        vector<int>par(n+1, 0);
+        for(int i=0; i<n; i++){
+            par[i]=i;
+        }
+        //cout<<edges[1][0]<<endl;
+        vector<int>ans;
+        for(auto i :edges){
+             int u = i[0];
+            int v =  i[1];
+            while(u!=par[u]) u = par[u];
+            while(v!=par[v]) v = par[v];
+            if(u == v)
+                ans = i;
+            else
+                par[u] = v;
+        }
+        return ans;
+    }
+};
