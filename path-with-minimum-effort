@@ -1,0 +1,37 @@
+//A route's effort is the maximum absolute difference in heights between two consecutive cells of the route.
+//Return the minimum effort required to travel from the top-left cell to the bottom-right cell.
+//solved using djikstra, instead of dist array here we have maintained an efforts matrix and have initialized it to INT_MAX;
+//And in the priority queue we are storing the pair of distance and x*100+y and we are extracting x by doing /100 and y by doing %100
+
+class Solution {
+public:
+    
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        //applying Djikstra
+        int m = heights.size();
+        int n = heights[0].size();
+        priority_queue<pair<int,int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
+        vector<vector<int>>efforts(m, vector<int>(n, INT_MAX));
+        int dirs[5]= {-1, 0, 1, 0, -1};
+        pq.emplace(0, 0);
+        while(!pq.empty()){
+            int effort = pq.top().first;
+            int x = pq.top().second/100, y = pq.top().second%100;
+            pq.pop();
+             if(x== m-1 && y== n-1) return effort;
+            if(effort>=efforts[x][y])
+                continue;
+           efforts[x][y] = effort;
+            for(int i=0; i<4; i++){
+                int nx = x + dirs[i], ny = y+ dirs[i+1];
+                //check for boundary
+                if(nx<0 || nx>=m || ny<0 || ny>=n) continue;
+                int n_effort = max(effort, abs(heights[x][y]-heights[nx][ny]));
+                pq.emplace(n_effort, nx*100+ny);
+            }
+        }
+        
+        return -1;
+    }
+    
+};
