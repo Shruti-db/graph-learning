@@ -1,0 +1,39 @@
+//Return an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.
+//safe node means the out degree of node will be zero
+//approach used is any node which are part of cycle are discarded and rest are pushed to answer vector
+//please revise how to check cycle in a directed graph( dfs)
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int>vis(n, 0);
+        vector<int>ans;
+        vector<int>dfsvis(n, 0);
+        for(int i=0; i<n; i++){
+            if(!vis[i]){
+                isCycleUtil(i, vis, dfsvis, graph, ans);
+            }
+        }
+       sort(ans.begin(), ans.end());
+        return ans;
+        
+    }
+    bool isCycleUtil(int node, vector<int>&vis, vector<int>&dfsvis, vector<vector<int>>&graph, vector<int>&ans){
+        vis[node]=1;
+        dfsvis[node]=1;
+        for(auto it : graph[node]){
+            if(!vis[it]){
+               if(isCycleUtil(it, vis, dfsvis, graph, ans))
+                   return true;
+            }else{
+                if(dfsvis[it])
+                    return true;
+            }
+        }
+        dfsvis[node] =0;
+       // cout<<node<<endl;
+        ans.push_back(node);
+        return false;
+    }
+};
