@@ -1,0 +1,29 @@
+//cycle detection in directed graph using dfs
+
+bool isCyclic(vector<int>dfs[], int n){
+  vector<int>dfs(n, 0);
+  vector<int>dfsVis(n, 0);
+  for(int i=0; i<n; i++){
+    if(!vis[i]){
+      if(isCyclicUtil(i, vis, dfsVis, adj))
+          return true;
+    }
+  }
+ }
+ 
+ bool isCyclicUtil(int i, vector<int>&vis, vector<int>&dfsVis, vector<int>adj[]){
+  vis[i]=1;
+  dfsVis[i]=1;
+  for(auto it : adj[i]){
+    if(!vis[i]){
+        if(isCyclicUtil(it, vis, dfsVis, adj)
+          return true;
+    }else{
+       if(dfsVis[it])
+         return true;
+        }
+    }
+    dfsVis[i]=0;
+    return false;
+    }
+  
