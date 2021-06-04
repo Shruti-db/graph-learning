@@ -1,0 +1,29 @@
+bool checkBipartite(vector<int>adj[], int n){
+  vector<int>color(n, -1);
+  for(int i=1; i<=n; i++){
+      if(color[i]==-1){
+        if(!bipartiteBFS(i, adj, color))
+          return false;
+       }
+  }
+   return true;
+ }
+ 
+ bool bipartiteBFS(int node,  vector<int>adj[], vector<int>&color){
+  color[node] =1;
+  queue<int>q;
+  q.push(node);
+  while(!q.empty()){
+    int x= q.front();
+    q.pop();
+    for(auto it : adj[x]){
+      if(color[it] == -1){
+          color[it] = 1- color[x];
+          q.push(it);
+       }
+       else if(color[it] == color[x])
+         return false;
+    }
+   }
+   return true;
+   }
